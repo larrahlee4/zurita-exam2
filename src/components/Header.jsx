@@ -7,31 +7,31 @@ function Header() {
 
       <nav className="flex gap-4">
         <Link
-          className="px-3 py-1 border-b-2 rounded-xl border-pink-400"
+          className="px-3 py-1 border-b-2 rounded-xl border-pink-400 transition duration-300 hover:bg-pink-500 hover:text-white hover:scale-105"
           to="/"
         >
           Home
         </Link>
         <Link
-          className="px-3 py-1 border-b-2 rounded-xl border-pink-400"
+          className="px-3 py-1 border-b-2 rounded-xl border-pink-400 transition duration-300 hover:bg-pink-500 hover:text-white hover:scale-105"
           to="/about"
         >
           About
         </Link>
         <Link
-          className="px-3 py-1 border-b-2 rounded-xl border-pink-400"
+          className="px-3 py-1 border-b-2 rounded-xl border-pink-400 transition duration-300 hover:bg-pink-500 hover:text-white hover:scale-105"
           to="/skills"
         >
           Skills
         </Link>
         <Link
-          className="px-3 py-1 border-b-2 rounded-xl border-pink-400"
+          className="px-3 py-1 border-b-2 rounded-xl border-pink-400 transition duration-300 hover:bg-pink-500 hover:text-white hover:scale-105"
           to="/projects"
         >
           Projects
         </Link>
         <Link
-          className="px-3 py-1 border-b-2 rounded-xl border-pink-400"
+          className="px-3 py-1 border-b-2 rounded-xl border-pink-400 transition duration-300 hover:bg-pink-500 hover:text-white hover:scale-105"
           to="/contact"
         >
           Contact
