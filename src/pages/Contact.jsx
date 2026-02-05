@@ -10,6 +10,9 @@ import defaultProfile from "../assets/defaultProfile.jpg";
 function Contact() {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [editedComment, setEditedComment] = useState("");
+
   const [reviews, setReviews] = useState([
     {
       id: 1,
@@ -39,9 +42,7 @@ function Contact() {
 
   useEffect(() => {
     const storedReviews = JSON.parse(localStorage.getItem("reviews"));
-    if (storedReviews) {
-      setReviews(storedReviews);
-    }
+    if (storedReviews) setReviews(storedReviews);
   }, []);
 
   useEffect(() => {
@@ -66,6 +67,25 @@ function Contact() {
     setComment("");
   };
 
+  const handleDelete = (id) => {
+    setReviews(reviews.filter((review) => review.id !== id));
+  };
+
+  const handleEdit = (review) => {
+    setEditingId(review.id);
+    setEditedComment(review.comment);
+  };
+
+  const handleSave = (id) => {
+    setReviews(
+      reviews.map((review) =>
+        review.id === id ? { ...review, comment: editedComment } : review,
+      ),
+    );
+    setEditingId(null);
+    setEditedComment("");
+  };
+
   return (
     <motion.div
       className="min-h-screen bg-gradient-to-br from-black via-pink-900 to-black flex flex-col items-center p-8 font-['Poppins']"
@@ -74,8 +94,7 @@ function Contact() {
       transition={{ duration: 0.6 }}
     >
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-6xl">
- 
-        <motion.div
+            <motion.div
           className="flex-1 bg-pink-50 border-4 border-pink-400 rounded-3xl shadow-[0_0_25px_rgba(236,72,153,0.5)] p-8 flex flex-col"
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -109,7 +128,6 @@ function Contact() {
             </button>
           </form>
 
-          
           <div className="space-y-4">
             {reviews.map((review, index) => (
               <motion.div
@@ -121,36 +139,70 @@ function Contact() {
                 whileHover={{
                   scale: 1.02,
                   boxShadow: "0 0 20px rgba(236,72,153,0.7)",
-                  borderColor: "#ec4899",
                 }}
               >
                 <motion.img
                   src={review.profile || defaultProfile}
                   alt={review.name}
-                  className="w-12 h-12 rounded-full object-cover cursor-pointer border-2 border-pink-400"
-                  whileHover={{
-                    scale: 1.25,
-                    boxShadow: "0 0 15px rgba(236,72,153,0.9)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 15,
-                  }}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-pink-400"
                 />
 
-                <div className="break-words">
+                <div className="break-words w-full">
                   <p className="font-semibold text-pink-800">{review.name}</p>
-                  <p className="text-gray-700 text-sm break-words">
-                    {review.comment}
-                  </p>
+
+                  {editingId === review.id ? (
+                    <>
+                      <textarea
+                        value={editedComment}
+                        onChange={(e) => setEditedComment(e.target.value)}
+                        className="w-full border-2 border-pink-400 rounded-xl px-3 py-2 text-sm"
+                      />
+
+                      <div className="flex gap-2 mt-2">
+                        <button
+                          onClick={() => handleSave(review.id)}
+                          className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => setEditingId(null)}
+                          className="bg-gray-400 text-white px-3 py-1 rounded-lg text-sm"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-gray-700 text-sm break-words">
+                        {review.comment}
+                      </p>
+
+                      {review.profile === defaultProfile && (
+                        <div className="flex gap-3 mt-2">
+                          <button
+                            onClick={() => handleEdit(review)}
+                            className="bg-pink-500 text-white px-3 py-1 rounded-lg text-sm"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(review.id)}
+                            className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-      
         <motion.div
           className="w-full md:w-1/3 bg-pink-50 border-4 border-pink-400 rounded-3xl shadow-[0_0_25px_rgba(236,72,153,0.4)] p-8 flex flex-col gap-6"
           initial={{ scale: 0.95, opacity: 0 }}

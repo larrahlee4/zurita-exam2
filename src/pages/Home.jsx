@@ -23,7 +23,7 @@ function Home() {
             ease: "linear",
           }}
         >
-          FRONTEND DEVELOPER FRONTEND DEVELOPER FRONTEND DEVELOPER
+          FRONTEND DEVELOPER FRONTEND DEVELOPER FRONTEND DEVELOPER FRONTED DEVELOPER
         </motion.h1>
       ))}
 
